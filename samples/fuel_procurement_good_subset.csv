@@ -1,4 +1,4 @@
-company_code,storage_location,cost_center,vendor_id,po_number,po_item,material_document_number,document_date,material_code,fuel_use_type,quantity,net_amount,currency,invoice_number
-ACME,SL01,CC100,VEND-001,PO-10001,10,MD-50001,2026-01-15,DIESEL-ULSD,generator,1250.50,104250.75,INR,INV-FUEL-001
-ACME,SL02,CC200,VEND-002,PO-10002,20,MD-50002,2026-01-22,PETROL-REG,mobile_combustion,840.00,67200.00,INR,INV-FUEL-002
-ACME,SL03,CC300,VEND-003,PO-10003,10,MD-50003,2026-02-05,LPG-CYL,stationary_combustion,64.00,5120.00,USD,INV-FUEL-003
+company_code,storage_location,cost_center,vendor_id,po_number,po_item,material_document_number,document_date,material_code,fuel_use_type,quantity,net_amount,currency,invoice_number,is_reversal
+ACME,SL01,CC100,VEND-001,PO-10001,10,MD-50001,2026-01-15,DIESEL-ULSD,generator,1250.50,104250.75,INR,INV-FUEL-001,false
+ACME,SL02,CC200,VEND-002,PO-10002,20,MD-50002,2026-01-22,PETROL-REG,mobile_combustion,840.00,67200.00,INR,INV-FUEL-002,false
+ACME,SL03,CC300,VEND-003,PO-10003,10,MD-50003,2026-02-05,LPG-CYL,stationary_combustion,64.00,5120.00,USD,INV-FUEL-003,true
