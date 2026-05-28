@@ -1,0 +1,258 @@
+{
+    "schemas": [
+        {
+            "name": "fuel_procurement",
+            "description": "SAP-like fuel procurement and goods movement export for Scope 1 emissions",
+            "columns": [
+                {
+                    "name": "tenant_code",
+                    "aliases": [
+                        "tenant",
+                        "client_code",
+                        "org_code"
+                    ],
+                    "type": "string",
+                    "required": false
+                },
+                {
+                    "name": "source_record_id",
+                    "aliases": [
+                        "record_id",
+                        "source_id",
+                        "external_id"
+                    ],
+                    "type": "string",
+                    "required": false
+                },
+                {
+                    "name": "company_code",
+                    "aliases": [
+                        "bukrs",
+                        "company",
+                        "legal_entity"
+                    ],
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "plant_code",
+                    "aliases": [
+                        "werks",
+                        "plant",
+                        "facility_code",
+                        "site_code"
+                    ],
+                    "type": "lookup",
+                    "lookupName": "facility_lookup",
+                    "required": false
+                },
+                {
+                    "name": "storage_location",
+                    "aliases": [
+                        "lgort",
+                        "storage_loc"
+                    ],
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "cost_center",
+                    "aliases": [
+                        "kostl",
+                        "cc_code"
+                    ],
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "vendor_id",
+                    "aliases": [
+                        "supplier_id",
+                        "lifnr"
+                    ],
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "vendor_name",
+                    "aliases": [
+                        "supplier_name",
+                        "vendor"
+                    ],
+                    "type": "string",
+                    "required": false
+                },
+                {
+                    "name": "po_number",
+                    "aliases": [
+                        "purchase_order",
+                        "ebeln"
+                    ],
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "po_item",
+                    "aliases": [
+                        "po_line",
+                        "ebelp"
+                    ],
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "material_document_number",
+                    "aliases": [
+                        "mat_doc",
+                        "mblnr"
+                    ],
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "movement_type",
+                    "aliases": [
+                        "bwart",
+                        "movement_code"
+                    ],
+                    "type": "lookup",
+                    "lookupName": "sap_movement_type_lookup",
+                    "required": false
+                },
+                {
+                    "name": "posting_date",
+                    "aliases": [
+                        "posting_dt",
+                        "budat"
+                    ],
+                    "type": "date",
+                    "dateFormat": "YYYY-MM-DD",
+                    "required": false
+                },
+                {
+                    "name": "document_date",
+                    "aliases": [
+                        "doc_date",
+                        "bldat"
+                    ],
+                    "type": "date",
+                    "dateFormat": "YYYY-MM-DD",
+                    "required": true
+                },
+                {
+                    "name": "material_code",
+                    "aliases": [
+                        "matnr",
+                        "sku",
+                        "material"
+                    ],
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "material_description",
+                    "aliases": [
+                        "material_desc",
+                        "description",
+                        "maktx"
+                    ],
+                    "type": "string",
+                    "required": false
+                },
+                {
+                    "name": "fuel_type",
+                    "aliases": [
+                        "fuel",
+                        "fuel_category",
+                        "fuel_name"
+                    ],
+                    "type": "lookup",
+                    "lookupName": "fuel_material_lookup",
+                    "required": false
+                },
+                {
+                    "name": "fuel_use_type",
+                    "aliases": [
+                        "usage_type",
+                        "combustion_type"
+                    ],
+                    "type": "enum",
+                    "enumValues": [
+                        "stationary_combustion",
+                        "mobile_combustion",
+                        "generator",
+                        "boiler",
+                        "fleet",
+                        "unknown"
+                    ],
+                    "required": false
+                },
+                {
+                    "name": "quantity",
+                    "aliases": [
+                        "qty",
+                        "amount",
+                        "volume"
+                    ],
+                    "type": "number",
+                    "numberFormat": "#,##0.000",
+                    "required": false
+                },
+                {
+                    "name": "quantity_uom",
+                    "aliases": [
+                        "uom",
+                        "unit",
+                        "meins"
+                    ],
+                    "type": "lookup",
+                    "lookupName": "unit_lookup",
+                    "required": false
+                },
+                {
+                    "name": "net_amount",
+                    "aliases": [
+                        "amount_local",
+                        "net_value",
+                        "dmbtr"
+                    ],
+                    "type": "number",
+                    "numberFormat": "#,##0.00",
+                    "required": true
+                },
+                {
+                    "name": "currency",
+                    "aliases": [
+                        "waers",
+                        "currency_code"
+                    ],
+                    "type": "lookup",
+                    "lookupName": "currency_lookup",
+                    "required": true
+                },
+                {
+                    "name": "invoice_number",
+                    "aliases": [
+                        "invoice_no",
+                        "bill_number"
+                    ],
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "is_reversal",
+                    "aliases": [
+                        "reversal_flag",
+                        "cancelled"
+                    ],
+                    "type": "enum",
+                    "enumValues": [
+                        "true",
+                        "false"
+                    ],
+                    "required": false
+                }
+            ]
+        }
+    ]
+}

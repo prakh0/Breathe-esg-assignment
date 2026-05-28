@@ -1,0 +1,4 @@
+tenant_code,source_record_id,platform,trip_id,traveler_employee_id,booking_status,travel_category,vendor_name,start_datetime,end_datetime,origin_code,destination_code,distance,distance_unit,cabin_class,amount,currency,is_personal
+ACME,TRV-1001,concur,TRIP-001,EMP-778,completed,flight,IndiGo,2025-03-01T06:30:00Z,2025-03-01T09:00:00Z,DEL,BOM,1148,km,economy,8500.0,INR,false
+ACME,TRV-1002,navan,TRIP-002,EMP-102,completed,hotel,Marriott,2025-03-10T15:00:00Z,2025-03-12T11:00:00Z,BLR,BLR,,km,business,24000.0,INR,false
+ACME,TRV-1003,manual,TRIP-003,EMP-555,completed,flight,Air India,2025-03-15T10:00:00Z,2025-03-15T12:00:00Z,DEL,BOM,850,mi,premium_economy,12000.0,INR,false
