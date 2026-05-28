@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Badge } from "./ui/badge";
 import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
 import { Plus, Trash2, Save } from "lucide-react";
 import { Alert, AlertDescription } from "./ui/alert";
 
@@ -15,6 +16,7 @@ export interface ColumnSchema {
   name: string;
   aliases: string[];
   type: "string" | "number" | "date" | "enum" | "lookup";
+  required?: boolean;
   dateFormat?: string;
   numberFormat?: string;
   enumValues?: string[];
@@ -243,6 +245,19 @@ export default function SchemaEditor({ fileType, schema, onSave }: SchemaEditorP
                     </div>
                   </div>
 
+                  <div className="flex items-center gap-3 p-3 bg-muted rounded">
+                    <Checkbox
+                      id={`required-${index}`}
+                      checked={column.required || false}
+                      onCheckedChange={(checked) =>
+                        handleColumnChange(index, "required", checked)
+                      }
+                    />
+                    <Label htmlFor={`required-${index}`} className="cursor-pointer">
+                      This field is required
+                    </Label>
+                  </div>
+
                   {column.type === "date" && (
                     <div className="space-y-2">
                       <Label>Date Format</Label>
@@ -363,7 +378,7 @@ export default function SchemaEditor({ fileType, schema, onSave }: SchemaEditorP
                         </SelectTrigger>
                         <SelectContent>
                           {availableLookups.map(l => (
-                             <SelectItem key={l.name} value={l.name}>{l.name}</SelectItem>
+                            <SelectItem key={l.name} value={l.name}>{l.name}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>

@@ -1,8 +1,10 @@
 import pandas as pd
 
+
 def parse_csv(file_path: str) -> pd.DataFrame:
     """Parse CSV file into pandas DataFrame."""
     return pd.read_csv(file_path)
+
 
 def validate_schema(df: pd.DataFrame, schema: dict) -> list:
     """Validate DataFrame against provided schema."""
@@ -22,12 +24,14 @@ def validate_schema(df: pd.DataFrame, schema: dict) -> list:
         valid_names = [expected_name, *aliases]
         found = any(name in dataframe_columns for name in valid_names)
 
-        if not found:
+        if not found and column.get("required", False):
             errors.append(f"Missing required column: {expected_name}")
 
     return errors
 
+
 import uuid
+
 
 def normalize_dataframe(df: pd.DataFrame, schema: dict) -> pd.DataFrame:
     """Normalize DataFrame columns based on schema and validate row by row."""
@@ -43,12 +47,14 @@ def normalize_dataframe(df: pd.DataFrame, schema: dict) -> pd.DataFrame:
         possible_names = [canonical_name, *aliases]
 
         for df_column in df.columns:
-            if df_column.strip().lower() in [name.strip().lower() for name in possible_names]:
+            if df_column.strip().lower() in [
+                name.strip().lower() for name in possible_names
+            ]:
                 column_mapping[df_column] = canonical_name
                 break
 
     normalized_df = normalized_df.rename(columns=column_mapping)
-    
+
     # Initialize tracking columns
     normalized_df["id"] = [str(uuid.uuid4()) for _ in range(len(normalized_df))]
     normalized_df["status"] = "pending"
@@ -66,7 +72,9 @@ def normalize_dataframe(df: pd.DataFrame, schema: dict) -> pd.DataFrame:
         if column.get("type") == "lookup" and has_lookups:
             lookup_name = column.get("lookupName")
             if lookup_name and lookup_name not in lookup_cache:
-                result = conn.execute("SELECT data_json FROM lookup_tables WHERE name = ?", [lookup_name]).fetchone()
+                result = conn.execute(
+                    "SELECT data_json FROM lookup_tables WHERE name = ?", [lookup_name]
+                ).fetchone()
                 if result:
                     lookup_cache[lookup_name] = json.loads(result[0])
 
@@ -77,8 +85,14 @@ def normalize_dataframe(df: pd.DataFrame, schema: dict) -> pd.DataFrame:
             col_name = column.get("name")
             if col_name not in row.index:
                 continue
-                
+
             val = row[col_name]
+
+            # Check if required field is null
+            if column.get("required", False) and pd.isna(val):
+                errors.append(f"Required field '{col_name}' cannot be empty")
+                continue
+
             if pd.isna(val):
                 continue
 
@@ -91,11 +105,15 @@ def normalize_dataframe(df: pd.DataFrame, schema: dict) -> pd.DataFrame:
                     if date_format:
                         # Simple format mapping (this is basic, can be expanded)
                         # Pandas to_datetime can infer if format is not strict
-                        row[col_name] = pd.to_datetime(val, format=date_format, errors='raise')
+                        row[col_name] = pd.to_datetime(
+                            val, format=date_format, errors="raise"
+                        )
                     else:
-                        row[col_name] = pd.to_datetime(val, errors='raise')
+                        row[col_name] = pd.to_datetime(val, errors="raise")
                 elif col_type == "enum":
-                    enum_values = [v.lower().strip() for v in column.get("enumValues", [])]
+                    enum_values = [
+                        v.lower().strip() for v in column.get("enumValues", [])
+                    ]
                     if str(val).lower().strip() not in enum_values:
                         errors.append(f"Invalid value '{val}' for enum {col_name}")
                 elif col_type == "lookup":
@@ -108,14 +126,19 @@ def normalize_dataframe(df: pd.DataFrame, schema: dict) -> pd.DataFrame:
                             if val_str == str(row_data.get("key", "")).lower().strip():
                                 matched_value = row_data.get("value")
                                 break
-                            aliases = [str(a).lower().strip() for a in row_data.get("aliases", [])]
+                            aliases = [
+                                str(a).lower().strip()
+                                for a in row_data.get("aliases", [])
+                            ]
                             if val_str in aliases:
                                 matched_value = row_data.get("value")
                                 break
                         if matched_value is not None:
                             row[col_name] = matched_value
                         else:
-                            errors.append(f"Value '{val}' not found in lookup '{lookup_name}'")
+                            errors.append(
+                                f"Value '{val}' not found in lookup '{lookup_name}'"
+                            )
                     else:
                         errors.append(f"Lookup table '{lookup_name}' not found")
             except Exception as e:
