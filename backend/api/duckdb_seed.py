@@ -2,19 +2,22 @@ import os
 import json
 from utils.duckdb import get_connection
 
+
 def seed_if_needed():
-    # File is in /Users/shuprime/Downloads/File_upload and review/preload.json
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    preload_path = os.path.join(BASE_DIR, "preload.json")
-    
-    if not os.path.exists(preload_path):
+    # Use default_schema.json from project root
+    BASE_DIR = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    )
+    schema_path = os.path.join(BASE_DIR, "default_schema.json")
+
+    if not os.path.exists(schema_path):
         return
 
     try:
-        with open(preload_path, "r") as f:
+        with open(schema_path, "r") as f:
             data = json.load(f)
     except Exception as e:
-        print(f"Failed to load preload.json: {e}")
+        print(f"Failed to load default_schema.json: {e}")
         return
 
     conn = get_connection()
@@ -43,7 +46,7 @@ def seed_if_needed():
     schema_mapping = {
         "fuel_procurement": "fuel",
         "electricity_bills": "electricity",
-        "travel_details": "travel"
+        "travel_details": "travel",
     }
 
     schemas = data.get("schemas", [])
@@ -52,22 +55,28 @@ def seed_if_needed():
         if json_key in schema_mapping:
             file_type = schema_mapping[json_key]
             schema_str = json.dumps(schema_obj)
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT INTO file_schemas (file_type, schema_json)
                 VALUES (?, ?)
                 ON CONFLICT (file_type) DO NOTHING
-            """, [file_type, schema_str])
+            """,
+                [file_type, schema_str],
+            )
 
-    # Seed Lookups
+    # Seed Lookups (if provided)
     lookups = data.get("lookups", [])
     for lookup_obj in lookups:
         name = lookup_obj.get("name")
         description = lookup_obj.get("description", "")
         data_rows = lookup_obj.get("data", [])
-        conn.execute("""
+        conn.execute(
+            """
             INSERT INTO lookup_tables (name, description, data_json)
             VALUES (?, ?, ?)
             ON CONFLICT (name) DO NOTHING
-        """, [name, description, json.dumps(data_rows)])
+        """,
+            [name, description, json.dumps(data_rows)],
+        )
 
-    print("DuckDB seeded successfully from preload.json")
+    print("DuckDB seeded successfully from default_schema.json")
