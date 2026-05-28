@@ -1,0 +1,4 @@
+platform,trip_id,booking_status,travel_category,start_datetime,end_datetime,origin_code,destination_code,distance,distance_unit,cabin_class,passenger_count,amount,currency,is_personal
+concur,TRIP-1001,completed,flight,2026-01-10T08:30:00Z,2026-01-10T10:45:00Z,DEL,BOM,1148.50,km,economy,1,18500.00,INR,false
+navan,TRIP-1002,ticketed,flight,2026-01-18T14:00:00Z,2026-01-18T16:35:00Z,BOM,BLR,842.00,km,business,2,62400.00,INR,false
+manual,TRIP-1003,completed,rail,2026-02-05T06:10:00Z,2026-02-05T12:20:00Z,blr,del,2150.25,km,unknown,1,120.00,USD,true

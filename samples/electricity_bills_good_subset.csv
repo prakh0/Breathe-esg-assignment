@@ -1,0 +1,4 @@
+utility_name,utility_account_number,facility_code,bill_issue_date,bill_period_start,bill_period_end,read_type,line_item_type,consumption_quantity,consumption_uom,line_amount,currency
+BESCOM,ACC-9001,BLR01,2026-01-31,2026-01-01,2026-01-31,actual,energy_usage,18250.75,kWh,159840.25,INR
+MSEDCL,ACC-4207,MDC01,2026-02-28,2026-02-01,2026-02-28,estimated,energy_usage,9450.00,kWh,82110.00,INR
+Green Grid Power,ACC-7788,blr_plant_01,2026-03-31,2026-03-01,2026-03-31,adjusted,fixed_charge,0,kWh,1250.00,USD

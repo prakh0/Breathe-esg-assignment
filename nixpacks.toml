@@ -3,7 +3,7 @@ python = true
 node = true
 
 [build]
-cmd = "cd frontend && pnpm install && pnpm run build && cd ../backend && pip install -r requirements.txt && python manage.py collectstatic --noinput && cd .."
+cmd = "cd frontend && npm ci && npm run build && cd ../backend && pip install -r requirements.txt && python manage.py collectstatic --noinput && cd .."
 
 [start]
 cmd = "cd backend && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT"

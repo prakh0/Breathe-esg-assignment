@@ -16,17 +16,29 @@ Including another URLconf
 """
 
 
-from django.urls import path, include, re_path
 from django.conf import settings
 from django.http import HttpResponse
+from django.urls import path, include, re_path
+
 import os
 
+
 def serve_react_index(request):
-    index_path = os.path.join(getattr(settings, 'FRONTEND_DIST', ''), 'index.html')
-    if os.path.exists(index_path):
-        with open(index_path, 'r') as f:
-            return HttpResponse(f.read(), content_type='text/html')
-    return HttpResponse("Frontend build not found. Run 'pnpm run build' in the frontend directory.", status=404)
+    index_paths = [
+        os.path.join(getattr(settings, "STATIC_ROOT", ""), "index.html"),
+        os.path.join(getattr(settings, "FRONTEND_DIST", ""), "index.html"),
+    ]
+
+    for index_path in index_paths:
+        if index_path and os.path.exists(index_path):
+            with open(index_path, "r") as f:
+                return HttpResponse(f.read(), content_type="text/html")
+
+    return HttpResponse(
+        "Frontend build not found. Run the frontend build and collectstatic.",
+        status=404,
+    )
+
 
 urlpatterns = [
     path("api/", include("api.urls")),

@@ -1,4 +1,0 @@
-tenant_code,source_record_id,plant_code,vendor_name,posting_date,material_description,fuel_type,fuel_use_type,quantity,quantity_uom,net_amount,currency,movement_type,is_reversal
-ACME,REC-1001,PL01,Indian Oil,2025-01-14,High Speed Diesel,diesel,mobile_combustion,1200,L,145000.5,INR,goods_receipt,false
-ACME,REC-1002,BLR01,BPCL,2025-01-14,Petrol 95,petrol,mobile_combustion,800,litre,98000.0,INR,goods_issue,false
-ACME,REC-1003,MDC01,Shell India,2025-01-20,Industrial Fuel Oil,fuel_oil,boiler,500,kilogram,56000.0,INR,reversal,true

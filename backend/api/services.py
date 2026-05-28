@@ -1,6 +1,23 @@
 import pandas as pd
 
 
+DATE_FORMAT_MAP = {
+    "YYYY": "%Y",
+    "MM": "%m",
+    "DD": "%d",
+    "HH": "%H",
+    "mm": "%M",
+    "ss": "%S",
+}
+
+
+def to_pandas_date_format(schema_format: str) -> str:
+    pandas_format = schema_format
+    for schema_token, pandas_token in DATE_FORMAT_MAP.items():
+        pandas_format = pandas_format.replace(schema_token, pandas_token)
+    return pandas_format
+
+
 def parse_csv(file_path: str) -> pd.DataFrame:
     """Parse CSV file into pandas DataFrame."""
     return pd.read_csv(file_path)
@@ -103,10 +120,10 @@ def normalize_dataframe(df: pd.DataFrame, schema: dict) -> pd.DataFrame:
                 elif col_type == "date":
                     date_format = column.get("dateFormat")
                     if date_format:
-                        # Simple format mapping (this is basic, can be expanded)
-                        # Pandas to_datetime can infer if format is not strict
                         row[col_name] = pd.to_datetime(
-                            val, format=date_format, errors="raise"
+                            val,
+                            format=to_pandas_date_format(date_format),
+                            errors="raise",
                         )
                     else:
                         row[col_name] = pd.to_datetime(val, errors="raise")
