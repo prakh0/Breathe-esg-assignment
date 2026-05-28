@@ -3,7 +3,7 @@ set -e
 
 # Build frontend
 cd frontend
-corepack enable pnpm
+npm install -g pnpm
 pnpm install
 pnpm run build
 cd ..
