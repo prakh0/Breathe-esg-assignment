@@ -178,41 +178,71 @@ The selected file type determines which validation, lookup, and normalization ru
 
 ## SchemaDefinition
 
-Defines the expected structure of uploaded files.
+A schema defines the expected structure of uploaded files.
 
-Each schema contains a set of fields and data types.
+Schemas are created and managed by users and are organized by file type:
 
-### Fields
+- Fuel & Procurement
+- Electricity
+- Travel
 
-| Field      | Type      |
-| ---------- | --------- |
-| id         | UUID      |
-| name       | STRING    |
-| file_type  | STRING    |
-| created_at | TIMESTAMP |
+Each schema consists of multiple columns and validation rules.
+
+### Schema Column Properties
+
+| Property | Description |
+|-----------|-------------|
+| column_name | Canonical column name |
+| data_type | Expected value type |
+| required | Whether the field must exist |
+| aliases | Alternative column names |
 
 ### Supported Data Types
 
-| Type   |
-| ------ |
+| Type |
+|---------|
 | string |
 | number |
-| date   |
-| enum   |
+| date |
+| enum |
 
 ### Example
 
-| Field Name   | Data Type |
-| ------------ | --------- |
-| fuel_type    | string    |
-| quantity     | number    |
-| posting_date | date      |
-| unit         | enum      |
+| Column Name | Type | Required | Aliases |
+|-------------|------|----------|----------|
+| tenant_code | string | Yes | tenant, client_code, org_code |
+| quantity | number | Yes | qty, amount |
+| transaction_date | date | Yes | date, posting_date |
+| fuel_type | enum | Yes | material_description |
+
+### Alias Resolution
+
+Aliases allow different source column names to map to a single canonical field.
+
+Example:
+
+Fuel Type
+Material Description
+Product Name
+
+↓
+
+fuel_type
+
+### Required Fields
+
+Columns marked as required must exist in the uploaded file.
+
+If a required field cannot be found using either:
+
+- The canonical column name
+- Any configured alias
+
+the upload fails validation.
 
 ### Why
 
-Schemas ensure uploaded files conform to expected formats before processing begins.
-
+This approach allows files from different organizations to be processed using the same schema while maintaining strict validation requirements.
 ---
 
 ## LookupTable
