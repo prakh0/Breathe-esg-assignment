@@ -1,5 +1,3 @@
-# TRADEOFFS.md
-
 # Deliberately Excluded Features
 
 This project focuses on ESG data ingestion, normalization, review, and auditability. Several features commonly found in production ESG platforms were intentionally not implemented in order to keep the scope manageable and focus on the core data engineering challenges.
