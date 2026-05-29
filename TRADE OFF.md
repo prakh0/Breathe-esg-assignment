@@ -97,49 +97,31 @@ Introduce a streaming ingestion layer for organizations that require near real-t
 
 
 
-## 4. Automatic Schema Detection
+## Automatic File Classification
 
 ### Not Built
 
-The platform does not automatically infer the structure of uploaded files.
+The platform does not automatically determine whether an uploaded file is:
 
-Before uploading data, users must create or select a schema definition that maps source columns to canonical fields.
+- Fuel
+- Utility
+- Transport
 
-Examples:
-
-- SAP Fuel Schema
-- Utility Electricity Schema
-- Corporate Travel Schema
-
-Users must perform an initial schema setup before uploading files.
-
-This increases onboarding effort but improves data quality and transformation accuracy.
+Users must explicitly select the file type before upload.
 
 ### Why
 
-Real-world ESG datasets use highly inconsistent column names and structures.
+Although schemas support aliases and required fields, different file types may contain overlapping columns.
 
-For example, the same field may appear as:
+Automatic classification could incorrectly apply validation and normalization rules.
 
-| Source A | Source B | Source C |
-|-----------|-----------|-----------|
-| Fuel Type | Material Description | Product Name |
+### Tradeoff
 
-Automatic schema inference would require:
-
-- Column matching algorithms
-- Heuristic field detection
-- Confidence scoring
-- Manual correction workflows
-
-Instead, the platform requires users to predefine schemas, ensuring deterministic and predictable transformations.
-
-This significantly reduces ingestion errors and makes the normalization process transparent.
+Users perform one additional step during upload, but validation becomes more reliable.
 
 ### Future Improvement
 
-Introduce schema suggestion and auto-mapping features that recommend mappings while still allowing user review and approval.
-
+Analyze uploaded columns and suggest the most likely file type before processing.
 ---
 
 # Summary
