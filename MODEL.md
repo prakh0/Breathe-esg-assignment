@@ -243,6 +243,7 @@ the upload fails validation.
 ### Why
 
 This approach allows files from different organizations to be processed using the same schema while maintaining strict validation requirements.
+
 ---
 
 ## LookupTable
