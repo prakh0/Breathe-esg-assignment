@@ -37,35 +37,40 @@ A canonical schema simplifies:
 
 ---
 
-## 2. Manual Schema Definitions vs Automatic Schema Detection
+## Schema-Based Validation
 
 ### Ambiguity
 
-The assignment does not define how uploaded files should be mapped to the canonical schema.
+The assignment does not define how files with different column names should be handled.
 
 ### What I Chose
 
-Users must create or select a schema before uploading a file.
+Schemas support:
+
+- Canonical column names
+- Aliases
+- Data types
+- Required fields
 
 ### Why
 
-Different organizations often use different column names for the same concept.
+Organizations often use different names for the same data.
 
 Examples:
 
-| Source A  | Source B             |
-| --------- | -------------------- |
-| Fuel Type | Material Description |
-| Quantity  | Qty                  |
-| Plant     | Facility             |
+| Organization A | Organization B | Organization C |
+|----------------|----------------|----------------|
+| tenant_code | tenant | client_code |
+| quantity | qty | amount |
 
-Requiring predefined schemas ensures deterministic mappings and reduces transformation errors.
+Using aliases allows all of these values to map to the same canonical field.
+
+Required fields ensure critical data is always present.
 
 ### What I Would Ask The PM
 
-* Should schema definitions be tenant-specific or globally shared?
-* Should the platform eventually support automatic schema detection and mapping suggestions?
-
+- Should aliases be shared across tenants?
+- Should aliases be automatically suggested based on previous uploads?
 ---
 
 ## 3. Invalid Data Handling
