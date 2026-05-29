@@ -95,6 +95,51 @@ Batch processing significantly simplifies the architecture while still addressin
 
 Introduce a streaming ingestion layer for organizations that require near real-time ESG data processing.
 
+
+
+## 4. Automatic Schema Detection
+
+### Not Built
+
+The platform does not automatically infer the structure of uploaded files.
+
+Before uploading data, users must create or select a schema definition that maps source columns to canonical fields.
+
+Examples:
+
+- SAP Fuel Schema
+- Utility Electricity Schema
+- Corporate Travel Schema
+
+Users must perform an initial schema setup before uploading files.
+
+This increases onboarding effort but improves data quality and transformation accuracy.
+
+### Why
+
+Real-world ESG datasets use highly inconsistent column names and structures.
+
+For example, the same field may appear as:
+
+| Source A | Source B | Source C |
+|-----------|-----------|-----------|
+| Fuel Type | Material Description | Product Name |
+
+Automatic schema inference would require:
+
+- Column matching algorithms
+- Heuristic field detection
+- Confidence scoring
+- Manual correction workflows
+
+Instead, the platform requires users to predefine schemas, ensuring deterministic and predictable transformations.
+
+This significantly reduces ingestion errors and makes the normalization process transparent.
+
+### Future Improvement
+
+Introduce schema suggestion and auto-mapping features that recommend mappings while still allowing user review and approval.
+
 ---
 
 # Summary
@@ -102,7 +147,7 @@ Introduce a streaming ingestion layer for organizations that require near real-t
 The project deliberately prioritizes:
 
 * Data ingestion
-* Schema mapping
+* Defining Schema 
 * Lookup-based normalization
 * Scope categorization
 * Review workflows
