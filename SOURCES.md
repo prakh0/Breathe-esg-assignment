@@ -1,5 +1,3 @@
-# SOURCES.md
-
 # Research on Supported Data Sources
 
 ## Overview
